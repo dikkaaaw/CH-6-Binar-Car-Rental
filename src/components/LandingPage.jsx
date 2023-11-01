@@ -25,6 +25,7 @@ import iconTwitter from "../assets/icon_twitter.svg";
 function LandingPage() {
   return (
     <div>
+      {/* Navbar */}
       <nav className="navbar navbar-expand-lg bg-transparent">
         <div className="container">
           <a href="index.html">
@@ -68,7 +69,7 @@ function LandingPage() {
             <div className="offcanvas-body justify-content-end">
               <ul className="navbar-nav mr-2 mb-lg-0">
                 <li className="nav-item mx-3 my-1">
-                  <a className="nav-link" href="#ourServices">
+                  <a className="nav-link" href="#ourService">
                     Our Services
                   </a>
                 </li>
@@ -588,7 +589,7 @@ function LandingPage() {
           <div className="row">
             <div className="col-md-3 mx-auto">
               <p className="fw-light">
-                Jalan Suroyo No. 161 Mayangan Kota Probolonggo 672000{" "}
+                Jalan Suroyo No. 161 Mayangan Kota Probolonggo 672000
               </p>
               <p className="fw-light">binarcarrental@gmail.com </p>
               <p>081-233-334-808</p>
