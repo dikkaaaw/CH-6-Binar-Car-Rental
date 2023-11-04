@@ -25,7 +25,7 @@ function LandingPage() {
         <div className="container-xxl">
           <div className="row">
             <div
-              className="col-lg-5  mx-lg-5 col-xl-5 col-xxl-5 mx-md-0 "
+              className="col-lg-5 mx-lg-5 col-xl-5 col-xxl-5 mx-md-0 "
               style={{ paddingTop: "100px" }}
             >
               <h2 className="fw-bold" style={{ paddingRight: "10px" }}>
@@ -37,7 +37,9 @@ function LandingPage() {
                 kebutuhanmu untuk sewa mobil selama 24 jam.{" "}
               </p>
               <Link to={"/cars"}>
-                <a className="btn btn-primary">Mulai Sewa Mobil</a>
+                <a href="/cars.html" className="btn btn-primary">
+                  Mulai Sewa Mobil
+                </a>
               </Link>
             </div>
             <div
