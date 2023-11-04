@@ -1,14 +1,29 @@
-import React from "react";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import "./LandingPage.css";
 import "./LandingPage.scss";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
-import users from "../assets/fi_users.png";
+import userLogo from "../assets/fi_users.png";
+import settingLogo from "../assets/fi_settings.png";
+import calendarLogo from "../assets/fi_calendar.png";
 import imgCar from "../assets/img_car.png";
-import { Link } from "react-router-dom";
 
 function ListCars() {
+  const [cars, setCars] = useState([]);
+
+  useEffect(function () {
+    async function getCars() {
+      const response = await fetch(
+        `https://raw.githubusercontent.com/fnurhidayat/probable-garbanzo/main/data/cars.min.json`
+      );
+      const data = await response.json();
+      setCars(data);
+    }
+    getCars();
+  }, []);
+
   return (
     <div>
       {/* Main Section */}
@@ -102,7 +117,7 @@ function ListCars() {
                       value="0"
                     />
                     <span className="input-group-text bg-white">
-                      <img src={users} width="20px" alt="" />
+                      <img src={userLogo} width="20px" alt="" />
                     </span>
                   </div>
                 </div>
@@ -122,7 +137,58 @@ function ListCars() {
         <div className="container">
           <div className="row justify-content-center">
             <div className="col-lg-11">
-              <div className="row" id="cars-container"></div>
+              <div className="row" id="cars-container">
+                {cars && cars.length > 0 ? (
+                  cars.map((car) => (
+                    <div
+                      className="col-lg-4"
+                      style={{ marginBottom: "18px" }}
+                      key={car.id}
+                    >
+                      <div className="card px-2 py-4">
+                        <img
+                          src={car.image}
+                          className="card-img-top mt-4 text-center"
+                          alt={car.manufacture}
+                        />
+                        <div className="card-body">
+                          <h5 className="card-title fs-6">
+                            {car.manufacture} / {car.model}
+                          </h5>
+                          <h5 className="card-title fs-5 fw-bold">
+                            {car.rentPerDay} / hari
+                          </h5>
+                          <p className="cars__p">{car.description}</p>
+                          <div className="row">
+                            <div className="col-1">
+                              <img src={userLogo} width="20px" alt="" />
+                            </div>
+                            <div className="col-10 ms-lg-2">
+                              {car.capacity} orang
+                            </div>
+                          </div>
+                          <div className="row mt-2">
+                            <div className="col-1">
+                              <img src={settingLogo} width="20px" alt="" />
+                            </div>
+                            <div className="col-10 ms-lg-2">
+                              {car.transmission}
+                            </div>
+                          </div>
+                          <div className="row mt-2 mb-4">
+                            <div className="col-1">
+                              <img src={calendarLogo} width="20px" alt="" />
+                            </div>
+                            <div className="col-10 ms-lg-2">{car.year}</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <p>No cars available</p>
+                )}
+              </div>
             </div>
           </div>
         </div>
