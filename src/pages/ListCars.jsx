@@ -1,28 +1,26 @@
-import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useListCarsContext } from "../components/ListCarsContext";
 import "./LandingPage.css";
 import "./LandingPage.scss";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
+import carImage from "../assets/car01.min.jpg";
 import userLogo from "../assets/fi_users.png";
 import settingLogo from "../assets/fi_settings.png";
 import calendarLogo from "../assets/fi_calendar.png";
 import imgCar from "../assets/img_car.png";
 
 function ListCars() {
-  const [cars, setCars] = useState([]);
-
-  useEffect(function () {
-    async function getCars() {
-      const response = await fetch(
-        `https://raw.githubusercontent.com/fnurhidayat/probable-garbanzo/main/data/cars.min.json`
-      );
-      const data = await response.json();
-      setCars(data);
-    }
-    getCars();
-  }, []);
+  const {
+    filteredCars,
+    rentalTime,
+    passengerCount,
+    isCriteriaEmpty,
+    setRentalTime,
+    setPassengerCount,
+    handleFilter,
+  } = useListCarsContext();
 
   return (
     <div>
@@ -85,7 +83,11 @@ function ListCars() {
                     className="form-control"
                     placeholder="Pilih Tanggal"
                     id="tanggal"
+                    onChange={(e) => setRentalTime(e.target.value)}
                   />
+                  {isCriteriaEmpty && !rentalTime && (
+                    <p style={{ color: "red" }}>Please select rental date.</p>
+                  )}
                 </div>
                 <div className="col-lg-auto col-xl-auto col-md-auto search__time">
                   <label>Pilih Waktu</label>
@@ -114,15 +116,27 @@ function ListCars() {
                       className="form-control border-end-0"
                       placeholder="Jumlah Penumpang"
                       id="jumlahPenumpang"
-                      value="0"
+                      value={passengerCount}
+                      onChange={(e) =>
+                        setPassengerCount(parseInt(e.target.value))
+                      }
                     />
                     <span className="input-group-text bg-white">
                       <img src={userLogo} width="20px" alt="" />
                     </span>
                   </div>
+                  {isCriteriaEmpty && !passengerCount && (
+                    <p style={{ color: "red" }}>
+                      Please enter the number of passengers.
+                    </p>
+                  )}
                 </div>
                 <div className="col-lg-2 col-xl-auto col-md-2  pt-4">
-                  <button className="btn btn-primary" id="load-btn">
+                  <button
+                    className="btn btn-primary"
+                    id="load-btn"
+                    onClick={handleFilter}
+                  >
                     Cari Mobil
                   </button>
                 </div>
@@ -138,8 +152,19 @@ function ListCars() {
           <div className="row justify-content-center">
             <div className="col-lg-11">
               <div className="row" id="cars-container">
-                {cars && cars.length > 0 ? (
-                  cars.map((car) => (
+                {isCriteriaEmpty ? (
+                  <p
+                    style={{
+                      textAlign: "center",
+                      width: "100%",
+                      fontSize: "18px",
+                      marginTop: "20px",
+                    }}
+                  >
+                    Please fill in the empty criteria.
+                  </p>
+                ) : filteredCars.length > 0 ? (
+                  filteredCars.map((car) => (
                     <div
                       className="col-lg-4"
                       style={{ marginBottom: "18px" }}
@@ -147,7 +172,7 @@ function ListCars() {
                     >
                       <div className="card px-2 py-4">
                         <img
-                          src={car.image}
+                          src={carImage}
                           className="card-img-top mt-4 text-center"
                           alt={car.manufacture}
                         />
@@ -182,11 +207,27 @@ function ListCars() {
                             <div className="col-10 ms-lg-2">{car.year}</div>
                           </div>
                         </div>
+                        <a
+                          href="/not-found"
+                          className="btn btn-primary"
+                          style={{ width: "100%" }}
+                        >
+                          Go somewhere
+                        </a>
                       </div>
                     </div>
                   ))
                 ) : (
-                  <p>No cars available</p>
+                  <p
+                    style={{
+                      textAlign: "center",
+                      width: "100%",
+                      fontSize: "18px",
+                      marginTop: "20px",
+                    }}
+                  >
+                    No cars available based on the selected criteria.
+                  </p>
                 )}
               </div>
             </div>

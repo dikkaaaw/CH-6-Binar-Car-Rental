@@ -10,7 +10,7 @@ function Navbar() {
       <nav className="navbar navbar-expand-lg bg-transparent">
         <div className="container">
           <Link to={"/"}>
-            <a>
+            <a href="/">
               <img
                 className="navbar-brand"
                 src={logo}
