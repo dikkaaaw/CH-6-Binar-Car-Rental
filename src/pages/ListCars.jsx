@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useListCarsContext } from "../components/ListCarsContext";
+import { useListCarsContext } from "../context/ListCars";
 import "./LandingPage.css";
 import "./LandingPage.scss";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -20,6 +20,8 @@ function ListCars() {
     setRentalTime,
     setPassengerCount,
     handleFilter,
+    available,
+    setAvailable,
   } = useListCarsContext();
 
   return (
@@ -68,12 +70,16 @@ function ListCars() {
                     className="form-select"
                     aria-label="Default select example"
                     id="tipeDriver"
+                    onChange={(e) => setAvailable(e.target.value)}
                   >
+                    {isCriteriaEmpty && !available && (
+                      <p style={{ color: "red" }}>Please select driver type.</p>
+                    )}
                     <option value="default" selected>
                       Pilih Tipe Driver &nbsp; &nbsp; &nbsp; &nbsp;{" "}
                     </option>
-                    <option value="true">Dengan Supir</option>
-                    <option value="false">Tanpa Supir (Lepas Kunci)</option>
+                    <option value={true}>Dengan Supir</option>
+                    <option value={false}>Tanpa Supir (Lepas Kunci)</option>
                   </select>
                 </div>
                 <div className="col-lg-auto col-xl-auto col-md-auto">
@@ -181,7 +187,7 @@ function ListCars() {
                             {car.manufacture} / {car.model}
                           </h5>
                           <h5 className="card-title fs-5 fw-bold">
-                            {car.rentPerDay} / hari
+                            Rp. {car.rentPerDay} / hari
                           </h5>
                           <p className="cars__p">{car.description}</p>
                           <div className="row">
@@ -204,7 +210,9 @@ function ListCars() {
                             <div className="col-1">
                               <img src={calendarLogo} width="20px" alt="" />
                             </div>
-                            <div className="col-10 ms-lg-2">{car.year}</div>
+                            <div className="col-10 ms-lg-2">
+                              Tahun {car.year}
+                            </div>
                           </div>
                         </div>
                         <a
@@ -212,7 +220,7 @@ function ListCars() {
                           className="btn btn-primary"
                           style={{ width: "100%" }}
                         >
-                          Go somewhere
+                          Pilih Mobil
                         </a>
                       </div>
                     </div>
