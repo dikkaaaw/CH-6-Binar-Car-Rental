@@ -5,7 +5,6 @@ import "./LandingPage.scss";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
-import carImage from "../assets/car01.min.jpg";
 import userLogo from "../assets/fi_users.png";
 import settingLogo from "../assets/fi_settings.png";
 import calendarLogo from "../assets/fi_calendar.png";
@@ -178,7 +177,7 @@ function ListCars() {
                     >
                       <div className="card px-2 py-4">
                         <img
-                          src={carImage}
+                          src={car.image}
                           className="card-img-top mt-4 text-center"
                           alt={car.manufacture}
                         />
