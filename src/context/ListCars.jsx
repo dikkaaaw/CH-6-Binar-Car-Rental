@@ -5,21 +5,28 @@ export const ListCarsContext = createContext();
 
 export function ListCarsProvider({ children }) {
   const [cars, setCars] = useState([]);
-  // const [imageUrl, setImageUrl] = useState("");
   const [filteredCars, setFilteredCars] = useState([]);
   const [rentalTime, setRentalTime] = useState("");
   const [passengerCount, setPassengerCount] = useState(0);
   const [isCriteriaEmpty, setIsCriteriaEmpty] = useState(false);
   const [available, setAvailable] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(function () {
     async function getCars() {
-      const response = await axios.get(
-        `https://raw.githubusercontent.com/fnurhidayat/probable-garbanzo/main/data/cars.min.json`
-      );
-      const data = response.data;
-      setCars(data);
-      setFilteredCars([]);
+      try {
+        setIsLoading(true);
+        const response = await axios.get(
+          `https://raw.githubusercontent.com/fnurhidayat/probable-garbanzo/main/data/cars.min.json`
+        );
+        const data = response.data;
+        setCars(data);
+        setFilteredCars([]);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setIsLoading(false);
+      }
     }
     getCars();
   }, []);
@@ -29,6 +36,7 @@ export function ListCarsProvider({ children }) {
       setIsCriteriaEmpty(true);
       setFilteredCars([]);
     } else {
+      setIsLoading(true);
       const filtered = cars.filter(
         (car) =>
           new Date(car.availableAt) > new Date(rentalTime) &&
@@ -37,6 +45,7 @@ export function ListCarsProvider({ children }) {
       );
       setFilteredCars(filtered);
       setIsCriteriaEmpty(false);
+      setIsLoading(false);
     }
   };
 
@@ -47,6 +56,7 @@ export function ListCarsProvider({ children }) {
     passengerCount,
     isCriteriaEmpty,
     available,
+    isLoading,
     setRentalTime,
     setPassengerCount,
     handleFilter,

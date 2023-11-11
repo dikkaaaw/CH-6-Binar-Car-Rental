@@ -21,7 +21,25 @@ function ListCars() {
     handleFilter,
     available,
     setAvailable,
+    isLoading,
   } = useListCarsContext();
+
+  if (isLoading) {
+    return (
+      <div>
+        <p
+          style={{
+            textAlign: "center",
+            width: "100%",
+            fontSize: "18px",
+            marginTop: "540px",
+          }}
+        >
+          Loading...
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -72,7 +90,9 @@ function ListCars() {
                     onChange={(e) => setAvailable(e.target.value)}
                   >
                     {isCriteriaEmpty && !available && (
-                      <p style={{ color: "red" }}>Please select driver type.</p>
+                      <p style={{ color: "red" }}>
+                        Silahkan pilih tipe driver!
+                      </p>
                     )}
                     <option value="default" selected>
                       Pilih Tipe Driver &nbsp; &nbsp; &nbsp; &nbsp;{" "}
@@ -91,7 +111,9 @@ function ListCars() {
                     onChange={(e) => setRentalTime(e.target.value)}
                   />
                   {isCriteriaEmpty && !rentalTime && (
-                    <p style={{ color: "red" }}>Please select rental date.</p>
+                    <p style={{ color: "red" }}>
+                      Silahkan pilih tanggal rental!
+                    </p>
                   )}
                 </div>
                 <div className="col-lg-auto col-xl-auto col-md-auto search__time">
@@ -132,7 +154,7 @@ function ListCars() {
                   </div>
                   {isCriteriaEmpty && !passengerCount && (
                     <p style={{ color: "red" }}>
-                      Please enter the number of passengers.
+                      Silahkan masukkan jumlah penumpang!
                     </p>
                   )}
                 </div>
@@ -166,7 +188,8 @@ function ListCars() {
                       marginTop: "20px",
                     }}
                   >
-                    Please fill in the empty criteria.
+                    Silahkan isi terlebih dahulu sesuai kriteria yang anda
+                    inginkan!
                   </p>
                 ) : filteredCars.length > 0 ? (
                   filteredCars.map((car) => (
@@ -233,7 +256,7 @@ function ListCars() {
                       marginTop: "20px",
                     }}
                   >
-                    No cars available based on the selected criteria.
+                    Tidak ada data mobil yang tersedia!
                   </p>
                 )}
               </div>
